@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {routes} from "./route";
+import {useStore} from './utils/useContext';
 
-function App() {
+import './App.css'
+import Navbar from "./components/Navbar/index";
+
+const App = ()=> {
+  const {state} = useStore();
+  const routings = routes.map((el,idx)=>{
+    return <DefaultRoute {...el} key={idx}/>
+
+  }) 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {state.isCompleted && <Navbar/>}
+      <Switch>
+          {routings}
+      </Switch>
+      
+    </Router>
+  
   );
 }
+
+const DefaultRoute = ({path,component})=>{
+  return(
+      <Route path={path} component={component} exact={true}/>
+         
+  )
+}
+
 
 export default App;
