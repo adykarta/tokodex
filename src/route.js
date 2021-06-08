@@ -5,11 +5,13 @@ import Detail from './pages/Detail/index';
 export const routes = [
     {
         path:"/",
-        component: Home
+        component: Home,
+        exact:true
     },
     {
         path:'/detail',
-        component:Detail
+        component:Detail,
+        exact:true
 
     }
 ]

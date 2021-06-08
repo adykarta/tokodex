@@ -23,9 +23,9 @@ const App = ()=> {
   );
 }
 
-const DefaultRoute = ({path,component})=>{
+const DefaultRoute = ({path,component, exact})=>{
   return(
-      <Route path={path} component={component} exact={true}/>
+      <Route path={path} component={component} exact={exact} />
          
   )
 }

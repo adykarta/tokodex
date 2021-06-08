@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {primaryGreen, lightGreen, white, red} from '../../theme';
+import {primaryGreen, white, red} from '../../theme';
 export const WrapperHome = styled.div`
     display:flex;
     flex-direction:column;

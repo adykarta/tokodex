@@ -15,6 +15,7 @@ const Home = ()=>{
     const history = useHistory();
     const [loading, setLoading] = useState(true)
     const [listPokemon, setListPokemon] = useState([])
+    const [totalPage, setTotalPage] = useState(1)
     const [query, setQuery] = useState({
         limit:20,
         offset:0,
@@ -30,12 +31,11 @@ const Home = ()=>{
                 results,
                 x=>x.url
                 )
+          
             Promise.all(dataUrl.map(url=>axios.get(url))).then(responses =>
-                {
-                   
-                  
+                {       
                     setLoading(false);
-                    setQuery((prev)=>({...prev, totalPage:Math.ceil(count/query.limit)}));
+                    setTotalPage(Math.ceil(count/query.limit))      
                     setListPokemon(responses);
                 }
               
@@ -45,24 +45,27 @@ const Home = ()=>{
       })
     }
 
+
   function handlePagination(num) {
         setQuery((prevQry) => ({
         ...prevQry,
         offset: query.limit * (num - 1),
         currentPage:num
         }));
-        history.push(`/?page=${num}`)
-  }
-    
-    useEffect(()=>{
-        fetchData(0);
-        history.push(`/?page=1`)
-        
-    },[])
 
+        history.push(`/?page=${num}`)
+       
+  }
+
+    useEffect(()=>{
+        handlePagination(query.currentPage) /* eslint-disable */
+    },[])
+    
     useEffect(() => {
-        fetchData(query.offset);
+        fetchData(query.offset); /* eslint-disable */
     },[query]);
+
+    console.log(listPokemon)
 
     return(
         <WrapperHome>
@@ -75,14 +78,15 @@ const Home = ()=>{
                 </WrapperLoading>
                 :
                 <>
-                    <Pagination currentNumber={query.currentPage} lastNumber={query.totalPage} onClick={handlePagination}/>
+                    <Pagination currentNumber={query.currentPage} lastNumber={totalPage} onClick={handlePagination}/>
                         <WrapperList>
                         {listPokemon.map((el,idx)=>{
+
                             return(
                                 <Card key={idx}>
                                     <img src={el.data.sprites.front_shiny} alt="pokemon-img"/>
                                     <h4>{el.data.name}</h4>
-                                    <button onClick={()=>history.push()}>See Details</button>
+                                    <button onClick={()=>history.push(`/detail?id=${el.data.id}`)}>See Details</button>
                                 </Card>
                             )
                         })}
