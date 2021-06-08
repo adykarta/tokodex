@@ -1,16 +1,20 @@
 import React,{useEffect, useState} from 'react';
 import {WrapperDetail, WrapperLoading, WrapperContent, WrapperItems, Button} from './style';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useHistory} from 'react-router-dom';
 import Loader from '../../components/Loader/index';
 import Item from '../../components/Item/index';
 import qs from 'query-string';
 import axios from 'axios';
+import swal from 'sweetalert';
+import {useStore} from '../../utils/useContext';
 
 
 const Detail = ()=>{
     const location  = useLocation();
+    const history = useHistory();
     const {id} = qs.parse(location.search);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);;
+    const {state, dispatch}  = useStore();
     const [data, setData] = useState(null)
 
     const fetchData = ()=>{
@@ -22,9 +26,54 @@ const Detail = ()=>{
         
     }
     useEffect(()=>{
-        fetchData(); /* eslint-disable */
+        if(!state.isCompleted){
+            history.push("/")
+        }
+        else{
+            fetchData(); /* eslint-disable */
+        }
+      
+
     },[])
-    console.log(data)
+
+    const  handleCatch = ({...props})=>{
+        if(Math.random() >0.5){
+            swal("Nickname:", {
+                content: "input",
+              })
+              .then((value) => {         
+                var currentData = state.data
+                if(value !== ""){
+                    const dataFiltered = currentData.filter((el)=>{
+                        return(
+                            el.nickname.toLowerCase() === value.toLowerCase()
+                        )
+                    })
+                    
+                    if(dataFiltered.length > 0 ){
+                        swal(`Pokemon with name "${value}" already catched.`);
+                    }
+                    
+                    else{
+                        currentData.push({nickname:value, ...props})
+                        var states = {...state, data:currentData}   
+                        dispatch({ key: "SET_AUTH_DATA", data: states })                    
+                        swal(`Succesfully catched ${value}`);
+                    }    
+                }
+                else{
+                    swal(`Pokemon must have name!`);
+
+                }
+                       
+            });
+        }
+        else{
+            swal(`Failed to catch!`);
+        }
+        
+    }
+
 
     return(
         <WrapperDetail>
@@ -36,7 +85,7 @@ const Detail = ()=>{
                 <WrapperContent>
                    <img src={data.sprites.front_default} alt="pokemon-img"></img>
                    <h2>{data.name}</h2>
-                   <Button>Catch</Button>
+                   <Button onClick={()=>handleCatch(data)}>Catch</Button>
                    <WrapperItems>
                         <h4>Base Exp: {data.base_experience}</h4>
                         <h4>Weight: {data.weight}</h4>

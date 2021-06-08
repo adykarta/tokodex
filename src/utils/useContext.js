@@ -1,17 +1,18 @@
 import React, { createContext, useEffect, useReducer, useContext } from "react";
 
-// constant name
+
 export const AUTH = "my-auth-data";
 
 const ContextAuth = createContext();
 
 const initialStateAuth = {
   name: getLocalStorageValue(AUTH)?.name ?? "",
-  isCompleted: getLocalStorageValue(AUTH)?.isCompleted ?? false
+  isCompleted: getLocalStorageValue(AUTH)?.isCompleted ?? false,
+  data: getLocalStorageValue(AUTH)?.data ?? []
 };
 
-//get data from local storage
-export function getLocalStorageValue(name) {
+
+function getLocalStorageValue(name) {
   const getData = localStorage.getItem(name);
   if (getData) {
     return JSON.parse(getData);
@@ -19,8 +20,8 @@ export function getLocalStorageValue(name) {
   } else return null;
 }
 
-//set data to localstorage
-export function setLocalStorageValue(key, value) {
+
+function setLocalStorageValue(key, value) {
   let stringifyVal = JSON.stringify(value);
   localStorage.setItem(key, stringifyVal);
 }
@@ -33,8 +34,7 @@ function reducer(state, { key, ...payload }) {
         ...state,
         ...payload.data,
       };
-    
-
+  
     default:
       return state;
   }

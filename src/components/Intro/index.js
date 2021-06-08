@@ -18,7 +18,7 @@ const Intro = ()=>{
     }
 
     const saveName = ()=>{
-        const dataUser = {...state, name:name}
+        const dataUser = {...state, name:name, data:[]}
         dispatch({ key: "SET_AUTH_DATA", data: dataUser });
         setIsCompleted(true);
     }

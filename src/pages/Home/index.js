@@ -37,25 +37,23 @@ const Home = ()=>{
                     setLoading(false);
                     setTotalPage(Math.ceil(count/query.limit))      
                     setListPokemon(responses);
-                }
-              
-            )
-            
+                }             
+            )         
        
       })
     }
 
 
-  function handlePagination(num) {
-        setQuery((prevQry) => ({
-        ...prevQry,
-        offset: query.limit * (num - 1),
-        currentPage:num
-        }));
+    function handlePagination(num) {
+            setQuery((prevQry) => ({
+            ...prevQry,
+            offset: query.limit * (num - 1),
+            currentPage:num
+            }));
 
-        history.push(`/?page=${num}`)
-       
-  }
+            history.push(`/?page=${num}`)
+        
+    }
 
     useEffect(()=>{
         handlePagination(query.currentPage) /* eslint-disable */
@@ -65,7 +63,14 @@ const Home = ()=>{
         fetchData(query.offset); /* eslint-disable */
     },[query]);
 
-    console.log(listPokemon)
+
+    const getTotalCatched = (idPokemon)=>{
+        const filteredData = state.data.filter((el)=>{
+            return el.id === idPokemon
+        })
+        return filteredData.length
+
+    }
 
     return(
         <WrapperHome>
@@ -81,11 +86,12 @@ const Home = ()=>{
                     <Pagination currentNumber={query.currentPage} lastNumber={totalPage} onClick={handlePagination}/>
                         <WrapperList>
                         {listPokemon.map((el,idx)=>{
-
+                            const totalCatched = getTotalCatched(el.data.id)
                             return(
                                 <Card key={idx}>
                                     <img src={el.data.sprites.front_shiny} alt="pokemon-img"/>
                                     <h4>{el.data.name}</h4>
+                                    <h4>{totalCatched}</h4>
                                     <button onClick={()=>history.push(`/detail?id=${el.data.id}`)}>See Details</button>
                                 </Card>
                             )

@@ -1,7 +1,8 @@
 import React from 'react';
 import {useLocation, useHistory} from 'react-router-dom';
 import {WrapperNavbar, WrapperMenu, Button} from './style';
-import LogoPokemon from '../../assets/img/pokemon-logo.png'
+import LogoPokemon from '../../assets/img/pokemon-logo.png';
+
 
 const MENU = [
     {
@@ -17,7 +18,6 @@ const MENU = [
 const Navbar = ()=>{
     const location = useLocation();
     const history = useHistory();
-
 
     return(
         <WrapperNavbar>

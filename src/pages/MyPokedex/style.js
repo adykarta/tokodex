@@ -1,13 +1,21 @@
 import styled from 'styled-components';
-import {primaryGreen, white, red} from '../../theme';
-export const WrapperHome = styled.div`
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    width:100vw;
-    min-height:100vh;
-    background-color:${primaryGreen};
+import {primaryGreen, red, white} from '../../theme';
+
+export const WrapperMyPokedex = styled.div`
+display:flex;
+flex-direction:column;
+align-items:center;
+width:100vw;
+min-height:100vh;
+background-color:${primaryGreen};
+padding-bottom:2rem;
+
 `
+
+export const WrapperLoading = styled.div`
+    margin-top:8rem;
+`
+
 
 export const WrapperList = styled.div`
     display:flex;
@@ -45,9 +53,6 @@ export const WrapperList = styled.div`
             transform: translateY(-7px);
         
         }
+        margin-bottom:1rem;
     }
-`
-
-export const WrapperLoading = styled.div`
-    margin-top:8rem;
 `
