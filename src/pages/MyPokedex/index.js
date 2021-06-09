@@ -30,6 +30,7 @@ const MyPokedex = ()=>{
     }
 
     function handlePagination(num) {
+        setLoading(true)
         setQuery((prevQry) => ({
         ...prevQry,
         offset: query.limit * (num - 1),
