@@ -14,7 +14,7 @@ const MyPokedex = ()=>{
     const [totalPage, setTotalPage] = useState(1)
     const [listPokemon, setListPokemon] = useState([])
     const [query, setQuery] = useState({
-        limit:1,
+        limit:20,
         offset:0,
         totalPage:1,
         currentPage:1,
