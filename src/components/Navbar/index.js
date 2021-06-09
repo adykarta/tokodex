@@ -1,4 +1,4 @@
-import React from 'react';
+import React     from 'react';
 import {useLocation, useHistory} from 'react-router-dom';
 import {WrapperNavbar, WrapperMenu, Button} from './style';
 import LogoPokemon from '../../assets/img/pokemon-logo.png';
